@@ -65,6 +65,7 @@ def main():
     board = insert_player(board, x, y)
     print_board(board)
     while True:
+        os.system('clear')
         chuj = getch()
         if chuj == "a":
             x = int(x)
