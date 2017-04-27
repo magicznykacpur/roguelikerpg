@@ -1,4 +1,5 @@
 import os
+import sys
 
 
 def create_board(width, height):
@@ -63,41 +64,44 @@ def main():
     board = create_board(width, height)
     board = insert_player(board, x, y)
     print_board(board)
-
-    while True:
-        chuj = getch()
-        if chuj == "a":
-            x = int(x)
-            y = int(y)
-            board = insert_player(board, x-1, y)
-            os.system('clear')
-            print_board(board)
-            board[y][x] = "-"
-            x = x - 1
-        elif chuj == "d":
-            x = int(x)
-            y = int(y)
-            board = insert_player(board, x+1, y)
-            board[y][x] = "-"
-            os.system('clear')
-            print_board(board)
-            x = x + 1
-        elif chuj == "w":
-            x = int(x)
-            y = int(y)
-            board = insert_player(board, x, y-1)
-            board[y][x] = "-"
-            os.system('clear')
-            print_board(board)
-            y = y - 1
-        elif chuj == "s":
-            x = int(x)
-            y = int(y)
-            board = insert_player(board, x, y+1)
-            board[y][x] = "-"
-            os.system('clear')
-            print_board(board)
-            y = y + 1
+while run:
+    try:
+        while True:
+            chuj = getch()
+            if chuj == "a":
+                x = int(x)
+                y = int(y)
+                board = insert_player(board, x-1, y)
+                board[y][x] = "-"
+                os.system('clear')
+                print_board(board)
+                x = x - 1
+            elif chuj == "d":
+                x = int(x)
+                y = int(y)
+                board = insert_player(board, x+1, y)
+                board[y][x] = "-"
+                os.system('clear')
+                print_board(board)
+                x = x + 1
+            elif chuj == "w":
+                x = int(x)
+                y = int(y)
+                board = insert_player(board, x, y-1)
+                board[y][x] = "-"
+                os.system('clear')
+                print_board(board)
+                y = y - 1
+            elif chuj == "s":
+                x = int(x)
+                y = int(y)
+                board = insert_player(board, x, y+1)
+                board[y][x] = "-"
+                os.system('clear')
+                print_board(board)
+                y = y + 1
+    except(EOFError, KeyboardInterrupt):
+        sys.exit("\nYou have exited the game\nThanks for playing!")
 
 
 if __name__ == '__main__':
