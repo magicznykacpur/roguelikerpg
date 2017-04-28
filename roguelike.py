@@ -1,24 +1,28 @@
 import os
 import sys
+import tty
+import termios
+import csv
+import termcolor
 
 
-def create_board(width, height):
-    '''Creates a board of given width and height'''
+def board_into_csv(board):
+    '''Writes the board into a csv file'''
+    with open("stage.csv", "w") as f:
+        w = csv.writer(f, delimiter=' ')
+        for item in board:
+            w.writerow(item)
+
+
+def csv_into_board():
+    '''Opens a board from csv file'''
     board = []
-    outer_row = []
-    inner_row = []
-    width = int(width)
-    height = int(height)
-    for item in range(width):
-        outer_row.append('#')
-    inner_row.append('#')
-    for item in range(width - 2):
-        inner_row.append('-')
-    inner_row.append('#')
-    board.append(outer_row)
-    for item in range(height - 2):
-        board.append(inner_row[:])
-    board.append(outer_row)
+    with open("stage.csv", newline='') as f:
+        r = csv.reader(f)
+        for row in f:
+            row = row.strip()
+            row = list(row)
+            board.append(row)
     return board
 
 
@@ -26,7 +30,9 @@ def print_board(board):
     '''Prints the given board'''
     board_list = board
     for item in board_list:
-        print("".join(item))
+        if item == "#":
+            line = colored("".join(item), red)
+            print(line)
 
 
 def insert_player(board, x, y):
@@ -39,10 +45,32 @@ def insert_player(board, x, y):
     return board
 
 
+def char_stats(char_class):
+    '''Returns a dictionary of charaters stats'''
+    char_stats = {}
+    char_class = char_class - 1
+    # list of tuples with each classes stats
+    character_list = [(8, 4, 8, 1), (12, 4, 4, 1), (4, 8, 8, 1)]
+    char_stats['ATK'] = character_list[char_class][0]
+    char_stats['DEF'] = character_list[char_class][1]
+    char_stats['HP'] = character_list[char_class][2]
+    char_stats['LVL'] = character_list[char_class][3]
+    return char_stats
+
+
+def character_info(set_char_stats):
+    '''Prints characters stats in a neat way'''
+    for stat, value in sorted(set_char_stats.items()):
+        print(stat, value)
+
+
+def character_info(set_char_stats):
+    '''Prints characters stats in a neat way'''
+    for stat, value in sorted(set_char_stats.items()):
+        print(stat, value)
+
+
 def getch():
-    import sys
-    import tty
-    import termios
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
@@ -54,66 +82,79 @@ def getch():
 
 
 def main():
-    global board
-    global x
-    global y
-    width = input("Enter map width: ")
-    height = input("Enter map height: ")
-    x = input("Enter character x: ")
-    y = input("Enter character y: ")
-    board = create_board(width, height)
+
+    x = 5
+    y = 5
+
+    char_class = int(input("""Choose your character class:
+    1) Warrior - 8 ATK, 4 DEF, 8 HP
+    2) Assassin - 12 ATK, 4 DEF, 4 HP
+    3) Knight - 4 ATK, 8 DEF, 8 HP
+    """))
+
+    board = csv_into_board()
+
+    print(board)
+
     board = insert_player(board, x, y)
-    width = int(width)
-    height = int(height)
+
+    set_char_stats = char_stats(char_class)
+    character_info(set_char_stats)
+
+
     print_board(board)
+
     while True:
-        os.system('clear')
-        chuj = getch()
-        if chuj == "a":
+
+        move = getch()
+
+        if move == "a":
             x = int(x)
             y = int(y)
-            if x != 1:
-                board = insert_player(board, x-1, y)
-                board[y][x] = "-"
+            if board[y][x - 1] == "-":
+                board = insert_player(board, x - 1, y)
+                board[y][x] = '-'
                 os.system('clear')
                 print_board(board)
+                character_info(set_char_stats)
                 x = x - 1
-            else:
-                pass
-        elif chuj == "d":
+        elif move == "d":
             x = int(x)
             y = int(y)
-            if x != width - 2:
+            if board[y][x + 1] == "-":
                 board = insert_player(board, x+1, y)
                 board[y][x] = "-"
                 os.system('clear')
                 print_board(board)
+                character_info(set_char_stats)
                 x = x + 1
             else:
                 pass
-        elif chuj == "w":
+        elif move == "w":
             x = int(x)
             y = int(y)
-            if y != 1:
+            if board[y - 1][x] == "-":
                 board = insert_player(board, x, y-1)
                 board[y][x] = "-"
                 os.system('clear')
                 print_board(board)
+                character_info(set_char_stats)
                 y = y - 1
             else:
                 pass
-        elif chuj == "s":
+        elif move == "s":
             x = int(x)
             y = int(y)
-            if y != height - 2:
+            if board[y + 1][x] == "-":
                 board = insert_player(board, x, y+1)
                 board[y][x] = "-"
                 os.system('clear')
                 print_board(board)
+                character_info(set_char_stats)
                 y = y + 1
             else:
                 pass
-        elif chuj == "q":
+        elif move == "q":
             sys.exit()
 
 
