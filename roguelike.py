@@ -3,7 +3,7 @@ import sys
 import tty
 import termios
 import csv
-import termcolor
+from termcolor import colored, cprint
 
 
 def board_into_csv(board):
@@ -30,9 +30,12 @@ def print_board(board):
     '''Prints the given board'''
     board_list = board
     for item in board_list:
-        if item == "#":
-            line = colored("".join(item), red)
-            print(line)
+        if item.count("#") > 2:
+            cprint("".join(item), 'red', 'on_red')
+        elif item.count("#") == 2:
+            cprint(item[0], 'red', 'on_red', end='')
+            cprint("".join(item[1:-1]), end='')
+            cprint(item[-1], 'red', 'on_red')
 
 
 def insert_player(board, x, y):
@@ -94,13 +97,10 @@ def main():
 
     board = csv_into_board()
 
-    print(board)
-
     board = insert_player(board, x, y)
 
     set_char_stats = char_stats(char_class)
     character_info(set_char_stats)
-
 
     print_board(board)
 
