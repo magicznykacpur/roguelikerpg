@@ -37,7 +37,7 @@ def print_board(board):
                 cprint(element, 'grey', 'on_grey', end='')
             if element == "@":
                 cprint(element, 'grey', 'on_white', end='')
-            if element == "0":
+            if element == "o":
                 cprint(element, 'magenta', 'on_magenta', end='')
             if element == "^":
                 cprint(element, 'grey', 'on_grey', end='')
@@ -93,10 +93,10 @@ def character_info(set_char_stats):
 
 def main():
 
-    menu.menu()
+    char_class = menu.menu()
 
-    """x = 4
-    y = 19
+    x = 4
+    y = 17
 
     board = csv_into_board("stage_1.csv")
 
@@ -121,7 +121,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 x = x - 1
-            elif board[y][x - 1] == "O":
+            elif board[y][x - 1] == "o":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x-1, y)
                 loot = items.generate_item(open_chest)
@@ -136,7 +136,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 x = x + 1
-            elif board[y][x + 1] == "O":
+            elif board[y][x + 1] == "o":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x+1, y)
                 loot = items.generate_item(open_chest)
@@ -151,7 +151,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 y = y - 1
-            elif board[y - 1][x] == "O":
+            elif board[y - 1][x] == "o":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x, y-1)
                 loot = items.generate_item(open_chest)
@@ -166,7 +166,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 y = y + 1
-            elif board[y + 1][x] == "O":
+            elif board[y + 1][x] == "o":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x, y+1)
                 loot = items.generate_item(open_chest)
@@ -177,7 +177,7 @@ def main():
         elif move == "c":
             character_info(set_char_stats)
         elif move == "q":
-            sys.exit()"""
+            sys.exit()
 
 
 if __name__ == '__main__':

@@ -22,14 +22,25 @@ def menu():
         elif select == "1":
             board = menu_from_csv("warrior.csv")
             roguelike.print_board(board)
+            char_class = 1
+        elif select == "y":
+            break
         elif select == "2":
             board = menu_from_csv("knight.csv")
             roguelike.print_board(board)
+            char_class = 3
+        elif select == "y":
+            break
         elif select == "3":
             board = menu_from_csv("assassin.csv")
             roguelike.print_board(board)
+            char_class = 2
+        elif select == "y":
+            break
         elif select == "q":
             sys.exit()
+
+    return char_class
 
 
 def menu_from_csv(filename="enter_screen.csv"):
