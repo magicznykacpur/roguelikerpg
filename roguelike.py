@@ -31,13 +31,15 @@ def print_board(board):
                 cprint(element, end='')
             if element == " ":
                 cprint(element, end='')
+            if element == "†":
+                cprint(element, 'red', 'on_white', end='')
             if element == "#":
                 cprint(element, 'white', 'on_white', end='')
             if element == '-':
                 cprint(element, 'grey', 'on_grey', end='')
             if element == "@":
-                cprint(element, 'grey', 'on_white', end='')
-            if element == "o":
+                cprint(element, 'white', 'on_yellow', end='')
+            if element == ".":
                 cprint(element, 'magenta', 'on_magenta', end='')
             if element == "^":
                 cprint(element, 'grey', 'on_grey', end='')
@@ -91,14 +93,36 @@ def character_info(set_char_stats):
         print(stat + " " + str(value) + "  ")
 
 
+def stage_swtich(current_stage):
+    '''Switches the stage if player is in the right position'''
+    filenames = ["stage_2.csv", "stage_3.csv", "stage_4.csv", "boss.csv"]
+    if current_stage == "stage_1.csv":
+        filename = filenames[0]
+        x = 4
+        y = 19
+    if current_stage == "stage_2.csv":
+        filename = filenames[1]
+        x = 2
+        y = 12
+    if current_stage == "stage_3.csv":
+        filename = filenames[2]
+        x = 4
+        y = 14
+    if current_stage == "stage_4.csv":
+        filename = filenames[-1]
+    return filename, x, y
+
+
 def main():
 
     char_class = menu.menu()
 
-    x = 4
-    y = 17
+    if char_class:
+        filename = "stage_1.csv"
+        x = 2
+        y = 16
 
-    board = csv_into_board("stage_1.csv")
+    board = csv_into_board(filename)
 
     board = insert_player(board, x, y)
 
@@ -121,7 +145,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 x = x - 1
-            elif board[y][x - 1] == "o":
+            elif board[y][x - 1] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x-1, y)
                 loot = items.generate_item(open_chest)
@@ -136,7 +160,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 x = x + 1
-            elif board[y][x + 1] == "o":
+            elif board[y][x + 1] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x+1, y)
                 loot = items.generate_item(open_chest)
@@ -151,7 +175,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 y = y - 1
-            elif board[y - 1][x] == "o":
+            elif board[y - 1][x] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x, y-1)
                 loot = items.generate_item(open_chest)
@@ -166,7 +190,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 y = y + 1
-            elif board[y + 1][x] == "o":
+            elif board[y + 1][x] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x, y+1)
                 loot = items.generate_item(open_chest)
@@ -178,6 +202,16 @@ def main():
             character_info(set_char_stats)
         elif move == "q":
             sys.exit()
+
+        if x > 47 and y < 6 and filename == "stage_1.csv":
+            filename, x, y = stage_swtich(filename)
+            board = csv_into_board(filename)
+        if x >= 57 and filename == "stage_2.csv":
+            filename, x, y = stage_swtich(filename)
+            board = csv_into_board(filename)
+        if x == 24 and y == 12 and filename == "stage_3.csv":
+            filename, x, y = stage_swtich(filename)
+            board = csv_into_board(filename)
 
 
 if __name__ == '__main__':

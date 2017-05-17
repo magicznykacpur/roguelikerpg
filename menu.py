@@ -14,8 +14,14 @@ def menu():
 
     while True:
 
-        select = getch()
+        select = getch.getch()
         os.system('clear')
+
+        while select not in ["a", "1", "2", "3", "q", "y"]:
+            os.system('clear')
+            print_menu(menu_board)
+            select = getch.getch()
+            pass
 
         if select == "a":
             pass
@@ -58,14 +64,3 @@ def menu_from_csv(filename="enter_screen.csv"):
 def print_menu(menu_board):
     for row in menu_board:
         print("".join(row))
-
-
-def getch():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
