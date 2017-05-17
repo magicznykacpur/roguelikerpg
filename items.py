@@ -11,7 +11,7 @@ def encounter_item():
 
         open_chest = input("Wkilkaj y albo n. ")
     if open_chest == "y":
-        print("\nDodane do rukzaka.")
+        print("\nDodane do rukzaku")
     if open_chest == "n":
         print("Fuck you then.")
 

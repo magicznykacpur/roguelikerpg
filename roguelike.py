@@ -71,40 +71,47 @@ def insert_player(board, x, y):
 
 def char_stats(char_class, inventory, wound_count):
     '''Returns a dictionary of characters stats'''
-    char_stats = {}
+    char_stats_dict = {}
     char_class = char_class - 1
     # list of tuples with each classes stats
     character_list = [(8, 4, 8, 1), (12, 4, 4, 1), (4, 8, 8, 1)]
-    char_stats['ATK'] = character_list[char_class][0]
-    char_stats['DEF'] = character_list[char_class][1]
-    char_stats['HP'] = character_list[char_class][2]
-    char_stats['LVL'] = character_list[char_class][3]
+    char_stats_dict['ATK'] = character_list[char_class][0]
+    char_stats_dict['DEF'] = character_list[char_class][1]
+    char_stats_dict['HP'] = character_list[char_class][2]
+    char_stats_dict['LVL'] = character_list[char_class][3]
     if "DildoMocy" in inventory:
-        char_stats['ATK'] += 2
+        char_stats_dict['ATK'] += 2
     if "TarczaWiksy" in inventory:
-        char_stats['DEF'] += 3
+        char_stats_dict['DEF'] += 3
     if "CzapkaWpierdolu" in inventory:
-        char_stats['HP'] += 1
-    char_stats['HP'] -= wound_count
-    return char_stats
+        char_stats_dict['HP'] += 1
+    char_stats_dict['HP'] -= wound_count
+    return char_stats_dict
 
 
-def encounter():
+def encounter(char_stats):
+
     wound_count = 0
+
     if char_stats['ATK'] >= 7:
         question, answer = combatbase.easymode()
         print(question)
         attac = input("Give me your answer!: ")
+
         while True:
+
             if attac == answer:
                 print("NON NOBIS DOMINE! You may pass.")
-                pass
-            elif attac /= answer:
+                break
+
+            elif attac != answer:
                 print("You're mine now!")
+
                 if char_stats['DEF'] >= 7:
                     wound_count += 1
                 else:
                     wound_count += 2
+
                     if wound_count < char_stats['HP']:
                         attac = input("Try again, mortal, before I end you. ")
                     else:
@@ -116,9 +123,9 @@ def encounter():
         while True:
             if attac == answer:
                 print("You slimy little peasant! NON NOBIS DOMINE! DEUS VULT!")
-                pass
-                elif attac /= answer:
-                    print("You're mine now!")
+                break
+            elif attac != answer:
+                print("You're mine now!")
                 if char_stats['DEF'] >= 7:
                     wound_count += 1
                 else:
@@ -173,7 +180,7 @@ def main():
 
     inv = inventory.create_inventory()
 
-    set_char_stats = char_stats(char_class, inv)
+    set_char_stats = char_stats(char_class, inv, wound_count=0)
 
     while True:
 
@@ -193,11 +200,11 @@ def main():
                 items.loot_item(board, open_chest, x-1, y)
                 loot = items.generate_item(open_chest)
                 inventory.add_to_inventory(inv, loot)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count=0)
             elif board[y][x - 1] == "†":
-                encounter()
+                wound_count = encounter(set_char_stats)
                 combatbase.delete_cunt(board, x-1, y)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count)
         elif move == "d":
             x = int(x)
             y = int(y)
@@ -212,11 +219,11 @@ def main():
                 items.loot_item(board, open_chest, x + 1, y)
                 loot = items.generate_item(open_chest)
                 inventory.add_to_inventory(inv, loot)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count=0)
             elif board[y][x + 1] == "†":
-                encounter()
-                combatbase.delete_cunt(board, x + 1, y)
-                set_char_stats = char_stats(char_class, inv)
+                wound_count = encounter(set_char_stats)
+                board[y][x + 1] = "*"
+                set_char_stats = char_stats(char_class, inv, wound_count)
         elif move == "w":
             x = int(x)
             y = int(y)
@@ -231,11 +238,11 @@ def main():
                 items.loot_item(board, open_chest, x, y - 1)
                 loot = items.generate_item(open_chest)
                 inventory.add_to_inventory(inv, loot)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count=0)
             elif board[y - 1][x] == "†":
-                encounter()
+                wound_count = encounter(set_char_stats)
                 combatbase.delete_cunt(board, x, y - 1)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count)
         elif move == "s":
             x = int(x)
             y = int(y)
@@ -250,11 +257,11 @@ def main():
                 items.loot_item(board, open_chest, x, y+1)
                 loot = items.generate_item(open_chest)
                 inventory.add_to_inventory(inv, loot)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count=0)
             elif board[y + 1][x] == "†":
-                encounter()
+                wound_count = encounter(set_char_stats)
                 combatbase.delete_cunt(board, x, y + 1)
-                set_char_stats = char_stats(char_class, inv)
+                set_char_stats = char_stats(char_class, inv, wound_count)
         elif move == "i":
             inventory.print_inventory_table(inv)
         elif move == "c":
