@@ -2,25 +2,19 @@ import os
 import sys
 import tty
 import termios
+import getch
 import csv
 import inventory
 import items
 import combatbase
+import menu
 from termcolor import colored, cprint
 
 
-def board_into_csv(board):
-    '''Writes the board into a csv file'''
-    with open("stage_1.csv", "w") as f:
-        w = csv.writer(f, delimiter=' ')
-        for item in board:
-            w.writerow(item)
-
-
-def csv_into_board():
+def csv_into_board(filename):
     '''Opens a board from csv file'''
     board = []
-    with open("stage_2.csv", newline='') as f:
+    with open(filename, newline='') as f:
         r = csv.reader(f)
         for row in f:
             row = row.strip()
@@ -34,13 +28,19 @@ def print_board(board):
     board_list = board
     for item in board_list:
         for element in item:
+            if element.isalpha() or element.isdigit():
+                cprint(element, end='')
+            if element == " ":
+                cprint(element, end='')
+            if element == "†":
+                cprint(element, 'red', 'on_white', end='')
             if element == "#":
                 cprint(element, 'white', 'on_white', end='')
             if element == '-':
                 cprint(element, 'grey', 'on_grey', end='')
             if element == "@":
-                cprint(element, 'grey', 'on_white', end='')
-            if element == "O":
+                cprint(element, 'white', 'on_yellow', end='')
+            if element == ".":
                 cprint(element, 'magenta', 'on_magenta', end='')
             if element == "^":
                 cprint(element, 'grey', 'on_grey', end='')
@@ -136,30 +136,36 @@ def character_info(set_char_stats):
         print(stat + " " + str(value) + "  ")
 
 
-def getch():
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
-    try:
-        tty.setraw(sys.stdin.fileno())
-        ch = sys.stdin.read(1)
-    finally:
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return ch
+def stage_swtich(current_stage):
+    '''Switches the stage if player is in the right position'''
+    filenames = ["stage_2.csv", "stage_3.csv", "stage_4.csv", "boss.csv"]
+    if current_stage == "stage_1.csv":
+        filename = filenames[0]
+        x = 4
+        y = 19
+    if current_stage == "stage_2.csv":
+        filename = filenames[1]
+        x = 2
+        y = 12
+    if current_stage == "stage_3.csv":
+        filename = filenames[2]
+        x = 4
+        y = 14
+    if current_stage == "stage_4.csv":
+        filename = filenames[-1]
+    return filename, x, y
 
 
 def main():
 
-    x = 4
-    y = 19
+    char_class = menu.menu()
 
-    char_class = 3
-    # int(input("""Choose your character class:
-    # 1) Warrior - 8 ATK, 4 DEF, 8 HP
-    # 2) Assassin - 12 ATK, 4 DEF, 4 HP
-    # 3) Knight - 4 ATK, 8 DEF, 8 HP
-    # """))
+    if char_class:
+        filename = "stage_1.csv"
+        x = 2
+        y = 16
 
-    board = csv_into_board()
+    board = csv_into_board(filename)
 
     board = insert_player(board, x, y)
 
@@ -171,7 +177,7 @@ def main():
 
     while True:
 
-        move = getch()
+        move = getch.getch()
 
         if move == "a":
             x = int(x)
@@ -182,7 +188,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 x = x - 1
-            elif board[y][x - 1] == "O":
+            elif board[y][x - 1] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x-1, y)
                 loot = items.generate_item(open_chest)
@@ -201,7 +207,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 x = x + 1
-            elif board[y][x + 1] == "O":
+            elif board[y][x + 1] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x + 1, y)
                 loot = items.generate_item(open_chest)
@@ -220,7 +226,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 y = y - 1
-            elif board[y - 1][x] == "O":
+            elif board[y - 1][x] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x, y - 1)
                 loot = items.generate_item(open_chest)
@@ -239,7 +245,7 @@ def main():
                 os.system('clear')
                 print_board(board)
                 y = y + 1
-            elif board[y + 1][x] == "O":
+            elif board[y + 1][x] == ".":
                 open_chest = items.encounter_item()
                 items.loot_item(board, open_chest, x, y+1)
                 loot = items.generate_item(open_chest)
@@ -255,6 +261,16 @@ def main():
             character_info(set_char_stats)
         elif move == "q":
             sys.exit()
+
+        if x > 47 and y < 6 and filename == "stage_1.csv":
+            filename, x, y = stage_swtich(filename)
+            board = csv_into_board(filename)
+        if x >= 57 and filename == "stage_2.csv":
+            filename, x, y = stage_swtich(filename)
+            board = csv_into_board(filename)
+        if x == 24 and y == 12 and filename == "stage_3.csv":
+            filename, x, y = stage_swtich(filename)
+            board = csv_into_board(filename)
 
 
 if __name__ == '__main__':
