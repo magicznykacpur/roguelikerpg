@@ -6,6 +6,8 @@ from termcolor import colored, cprint
 
 
 def generate_number():
+    '''Generates a random 3-digit number,
+    if chars repeat in the number, the number is generated again'''
 
     number = random.randint(100, 999)
     for char in str(number):
@@ -16,7 +18,7 @@ def generate_number():
 
 
 def guess_number():
-
+    '''Takes user input for the guessed number'''
     guessed_number = input("Enter a number\n")
 
     while len(str(guessed_number)) != 3 or str(guessed_number).isalpha():

@@ -33,6 +33,7 @@ hard_questions = {"What is the height of K2 in meters?": "8611",
 
 
 def encounter(char_stats):
+    '''Handles enemy encountering'''
 
     wound_count = 0
 
@@ -86,6 +87,7 @@ def encounter(char_stats):
 
 
 def easymode():
+    '''Picks easy questions'''
     easy = list(easy_questions.keys())
     key = random.choice(easy)
     answer = easy_questions[key]
@@ -93,6 +95,7 @@ def easymode():
 
 
 def hardmode():
+    '''Picks hard questions'''
     hard = list(hard_questions.keys())
     key = random.choice(hard)
     answer = hard_questions[key]
@@ -100,4 +103,5 @@ def hardmode():
 
 
 def delete_cunt(board, x, y):
-        board[y][x] = "*"
+    '''Deletes enemy after succesful encounter'''
+    board[y][x] = "*"

@@ -4,16 +4,16 @@ import random
 def encounter_item():
     '''Function responsible for chest encountering behaviour'''
 
-    print("To je skrzynka. Otwierasz?\n")
+    print("It's a chest. Do yo u want to open it?\n")
 
     open_chest = input("(y/n): ")
     while open_chest.isdigit() or open_chest in ["", " "]:
+        open_chest = input("Try entering y or n. ")
 
-        open_chest = input("Wkilkaj y albo n. ")
     if open_chest == "y":
-        print("\nDodane do rukzaku.")
+        print("\nItem added to inventory")
     if open_chest == "n":
-        print("Jeruna.")
+        print("Alright boi.")
 
     return open_chest
 
