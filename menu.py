@@ -62,5 +62,16 @@ def menu_from_csv(filename="enter_screen.csv"):
 
 
 def print_menu(menu_board):
+    '''Prints out the menu'''
     for row in menu_board:
         print("".join(row))
+
+
+def start_game(char_class):
+    '''Starts the game after the class is selected'''
+    if char_class:
+        filename = "stage_1.csv"
+        x = 2
+        y = 16
+        stage_name = "Stage 1 - The River"
+    return x, y, filename, stage_name

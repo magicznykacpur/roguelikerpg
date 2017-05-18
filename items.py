@@ -11,9 +11,9 @@ def encounter_item():
 
         open_chest = input("Wkilkaj y albo n. ")
     if open_chest == "y":
-        print("\nDodane do rukzaku")
+        print("\nDodane do rukzaku.")
     if open_chest == "n":
-        print("Fuck you then.")
+        print("Jeruna.")
 
     return open_chest
 
@@ -30,7 +30,7 @@ def generate_item(open_chest):
     '''Creates an item in current inventory dictionary'''
     added_items = []
     if open_chest == "y":
-        loot = ["DildoMocy", "TarczaWiksy", "CzapkaWpierdolu"]
+        loot = ["DildoMocy", "TarczaWiksy", "CzapkaWpierdolu", "OnuceZapierdalania", "RekawiceTrzepania"]
         added_items.append(random.choice(loot))
     else:
         pass
