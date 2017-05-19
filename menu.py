@@ -27,6 +27,9 @@ def menu():
         if select == "a":
             logo_board = menu_from_csv("studio_logo.csv")
             print_menu(logo_board)
+        elif select == "s":
+            story_board = menu_from_csv("plot.csv")
+            print_menu(story_board)
         elif select == "1":
             board = menu_from_csv("warrior.csv")
             roguelike.print_board(board)
