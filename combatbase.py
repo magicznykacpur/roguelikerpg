@@ -60,7 +60,8 @@ def encounter(char_stats):
                     if wound_count < char_stats['HP']:
                         attac = input("Try again, mortal, before I end you. ")
                     else:
-                        game_over()
+                        menu.game_over()
+                        break
     else:
         question, answer = hardmode()
         print(question)
@@ -84,6 +85,7 @@ def encounter(char_stats):
                         attac = input("Try again, mortal, before I end you. ")
                     else:
                         menu.game_over()
+                        break
     return wound_count
 
 

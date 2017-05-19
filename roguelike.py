@@ -11,16 +11,17 @@ import menu
 import moving
 import player_stats
 import stages
+import halloffame
 import time
 from termcolor import colored, cprint
 
 
 def count_game_time(start, stop, character_info):
     '''Counts the game time, and returns it in a dictionary'''
-    time = stop - start
-    time = int(time) / 60
+    time_count = stop - start
+    time_count = int(time_count) / 60
 
-    return time, character_info
+    return time_count, character_info
 
 
 def csv_into_board(filename):
@@ -110,7 +111,9 @@ def main():
 
     timer_stop = time.time()
 
-    time, character_info = count_game_time(timer_start, timer_stop, char_class)
+    time_count, game_info = count_game_time(timer_start, timer_stop, char_class)
+
+    save_current_score(game_info)
 
 
 if __name__ == '__main__':

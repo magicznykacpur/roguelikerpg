@@ -5,6 +5,7 @@ import sys
 import tty
 import termios
 import roguelike
+import halloffame
 
 
 def menu():
@@ -24,7 +25,8 @@ def menu():
             pass
 
         if select == "a":
-            pass
+            logo_board = menu_from_csv("studio_logo.csv")
+            print_menu(logo_board)
         elif select == "1":
             board = menu_from_csv("warrior.csv")
             roguelike.print_board(board)
@@ -43,6 +45,10 @@ def menu():
             char_class = 2
         elif select == "y":
             break
+        elif select == "h":
+            halloffame.show_high_scores()
+        elif select == "m":
+            print_menu(menu_board)
         elif select == "q":
             sys.exit()
 
