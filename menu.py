@@ -84,4 +84,17 @@ def start_game(char_class):
 
 
 def game_over():
-    print("Przegrales smieciu.")
+    '''Prints out a game over screenn'''
+
+    os.system('clear')
+    over_screen = menu_from_csv("game_over.csv")
+    print_menu(over_screen)
+
+    select = getch.getch()
+    while select not in ["m", "q"]:
+        os.system('clear')
+        print_menu(over_screen)
+        select = getch.getch()
+
+    if select:
+        sys.exit()
