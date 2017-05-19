@@ -11,7 +11,16 @@ import menu
 import moving
 import player_stats
 import stages
+import time
 from termcolor import colored, cprint
+
+
+def count_game_time(start, stop, character_info):
+    '''Counts the game time, and returns it in a dictionary'''
+    time = stop - start
+    time = int(time) / 60
+
+    return time, character_info
 
 
 def csv_into_board(filename):
@@ -88,6 +97,7 @@ def main():
 
     set_char_stats = player_stats.char_stats(char_class, inv, wound_count=0)
 
+    timer_start = time.time()
     while True:
 
         move = getch.getch()
@@ -97,6 +107,10 @@ def main():
         filename, board, x, y, stage_name = stages.control_stage(x, y, filename, board, stage_name)
 
         moving.inv_stat_quit(inv, set_char_stats, move, stage_name)
+
+    timer_stop = time.time()
+
+    time, character_info = count_game_time(timer_start, timer_stop, char_class)
 
 
 if __name__ == '__main__':
