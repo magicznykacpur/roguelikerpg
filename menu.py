@@ -18,7 +18,7 @@ def menu():
         select = getch.getch()
         os.system('clear')
 
-        while select not in ["a", "1", "2", "3", "q", "y"]:
+        while select not in ["a", "1", "2", "3", "q", "y", "s", "h", "m"]:
             os.system('clear')
             print_menu(menu_board)
             select = getch.getch()
