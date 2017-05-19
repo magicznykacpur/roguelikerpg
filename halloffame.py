@@ -1,9 +1,9 @@
 import menu
 
 
-def save_current_score(game_info):
+def save_current_score(game_info, time_count):
     '''Saves current games score to the file'''
-    score = (game_info["character_class"], game_info["time"])
+    score = (game_info["character_class"], time_count["time"])
     formatted_score = []
     for item in score:
         item = str(item)

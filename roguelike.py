@@ -113,7 +113,7 @@ def main():
 
     time_count, game_info = count_game_time(timer_start, timer_stop, char_class)
 
-    save_current_score(game_info)
+    halloffame.save_current_score(game_info, time_count)
 
 
 if __name__ == '__main__':
