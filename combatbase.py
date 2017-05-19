@@ -40,6 +40,7 @@ def encounter(char_stats):
 
     if char_stats['ATK'] >= 7:
         question, answer = easymode()
+        greet_player(encounter_response)
         print(question)
         attac = input("Give me your answer!: ")
 
@@ -64,6 +65,7 @@ def encounter(char_stats):
                         break
     else:
         question, answer = hardmode()
+        greet_player(encounter_response)
         print(question)
         attac = input("Give me your answer! Be quick about it, MORTAL!: ")
 
@@ -87,6 +89,11 @@ def encounter(char_stats):
                         menu.game_over()
                         break
     return wound_count
+
+
+def greet_player(greet_list):
+    '''Greets the player'''
+    print(random.choice(greet_list))
 
 
 def easymode():
