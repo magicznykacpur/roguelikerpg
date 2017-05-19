@@ -24,7 +24,7 @@ def encounter_chest_left(x, y, board, inv, char_class):
     loot = items.generate_item(open_chest)
     inventory.add_to_inventory(inv, loot)
     set_char_stats = player_stats.char_stats(char_class, inv, wound_count=0)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def encounter_enemy_left(x, y, board, inv, char_class, set_char_stats):
@@ -42,7 +42,7 @@ def move_left(x, y, board, inv, char_class, set_char_stats):
     if board[y][x - 1] == "*":
         x, y, board = go_left(x, y, board)
     elif board[y][x - 1] == ".":
-        x, y, board = encounter_chest_left(x, y, board, inv, char_class)
+        x, y, board, set_char_stats = encounter_chest_left(x, y, board, inv, char_class)
     elif board[y][x - 1] == "†":
         x, y, board, set_char_stats = encounter_enemy_left(x, y, board, inv, char_class, set_char_stats)
     return x, y, board, set_char_stats
@@ -65,7 +65,7 @@ def encounter_chest_right(x, y, board, inv, char_class):
     loot = items.generate_item(open_chest)
     inventory.add_to_inventory(inv, loot)
     set_char_stats = player_stats.char_stats(char_class, inv, wound_count=0)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def encounter_enemy_right(x, y, board, inv, char_class, set_char_stats):
@@ -83,7 +83,7 @@ def move_right(x, y, board, inv, char_class, set_char_stats):
     if board[y][x + 1] == "*":
         x, y, board = go_right(x, y, board)
     elif board[y][x + 1] == ".":
-        x, y, board = encounter_chest_right(x, y, board, inv, char_class)
+        x, y, board, set_char_stats = encounter_chest_right(x, y, board, inv, char_class)
     elif board[y][x + 1] == "†":
         x, y, board, set_char_stats = encounter_enemy_right(x, y, board, inv, char_class, set_char_stats)
     return x, y, board, set_char_stats
@@ -106,7 +106,7 @@ def encounter_chest_up(x, y, board, inv, char_class):
     loot = items.generate_item(open_chest)
     inventory.add_to_inventory(inv, loot)
     set_char_stats = player_stats.char_stats(char_class, inv, wound_count=0)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def encounter_enemy_up(x, y, board, inv, char_class, set_char_stats):
@@ -124,7 +124,7 @@ def move_up(x, y, board, inv, char_class, set_char_stats):
     if board[y - 1][x] == "*":
         x, y, board = go_up(x, y, board)
     elif board[y - 1][x] == ".":
-        x, y, board = encounter_chest_up(x, y, board, inv, char_class)
+        x, y, board, set_char_stats = encounter_chest_up(x, y, board, inv, char_class)
     elif board[y - 1][x] == "†":
         x, y, board, set_char_stats = encounter_enemy_up(x, y, board, inv, char_class, set_char_stats)
     return x, y, board, set_char_stats
@@ -147,7 +147,7 @@ def encounter_chest_down(x, y, board, inv, char_class):
     loot = items.generate_item(open_chest)
     inventory.add_to_inventory(inv, loot)
     set_char_stats = player_stats.char_stats(char_class, inv, wound_count=0)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def encounter_enemy_down(x, y, board, inv, char_class, set_char_stats):
@@ -165,7 +165,7 @@ def move_down(x, y, board, inv, char_class, set_char_stats):
     if board[y + 1][x] == "*":
         x, y, board = go_down(x, y, board)
     elif board[y + 1][x] == ".":
-        x, y, board = encounter_chest_down(x, y, board, inv, char_class)
+        x, y, board, set_char_stats = encounter_chest_down(x, y, board, inv, char_class)
     elif board[y + 1][x] == "†":
         x, y, board, set_char_stats = encounter_enemy_down(x, y, board, inv, char_class, set_char_stats)
     return x, y, board, set_char_stats
