@@ -45,7 +45,7 @@ def move_left(x, y, board, inv, char_class, set_char_stats):
         x, y, board = encounter_chest_left(x, y, board, inv, char_class)
     elif board[y][x - 1] == "†":
         x, y, board, set_char_stats = encounter_enemy_left(x, y, board, inv, char_class, set_char_stats)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def go_right(x, y, board):
@@ -86,7 +86,7 @@ def move_right(x, y, board, inv, char_class, set_char_stats):
         x, y, board = encounter_chest_right(x, y, board, inv, char_class)
     elif board[y][x + 1] == "†":
         x, y, board, set_char_stats = encounter_enemy_right(x, y, board, inv, char_class, set_char_stats)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def go_up(x, y, board):
@@ -127,7 +127,7 @@ def move_up(x, y, board, inv, char_class, set_char_stats):
         x, y, board = encounter_chest_up(x, y, board, inv, char_class)
     elif board[y - 1][x] == "†":
         x, y, board, set_char_stats = encounter_enemy_up(x, y, board, inv, char_class, set_char_stats)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def go_down(x, y, board):
@@ -168,7 +168,7 @@ def move_down(x, y, board, inv, char_class, set_char_stats):
         x, y, board = encounter_chest_down(x, y, board, inv, char_class)
     elif board[y + 1][x] == "†":
         x, y, board, set_char_stats = encounter_enemy_down(x, y, board, inv, char_class, set_char_stats)
-    return x, y, board
+    return x, y, board, set_char_stats
 
 
 def walk(board, x, y, move, set_char_stats, char_class, inv):
@@ -176,18 +176,18 @@ def walk(board, x, y, move, set_char_stats, char_class, inv):
         and returns new player position'''
 
     if move == "a":
-        x, y, board = move_left(x, y, board, inv, char_class, set_char_stats)
+        x, y, board, set_char_stats = move_left(x, y, board, inv, char_class, set_char_stats)
 
     elif move == "d":
-        x, y, board = move_right(x, y, board, inv, char_class, set_char_stats)
+        x, y, board, set_char_stats = move_right(x, y, board, inv, char_class, set_char_stats)
 
     elif move == "w":
-        x, y, board = move_up(x, y, board, inv, char_class, set_char_stats)
+        x, y, board, set_char_stats = move_up(x, y, board, inv, char_class, set_char_stats)
 
     elif move == "s":
-        x, y, board = move_down(x, y, board, inv, char_class, set_char_stats)
+        x, y, board, set_char_stats = move_down(x, y, board, inv, char_class, set_char_stats)
 
-    return x, y
+    return x, y, set_char_stats
 
 
 def inv_stat_quit(inv, set_char_stats, move, stage_name):

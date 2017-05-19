@@ -75,3 +75,7 @@ def start_game(char_class):
         y = 16
         stage_name = "Stage 1 - The River"
     return x, y, filename, stage_name
+
+
+def game_over():
+    print("Przegrales smieciu.")

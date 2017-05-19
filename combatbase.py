@@ -1,4 +1,5 @@
 import random
+import menu
 
 encounter_response = ['GITARA SIEMA!',
                       'Arka Gdynia Kurwa Świnia!',

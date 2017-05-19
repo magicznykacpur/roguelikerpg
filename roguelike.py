@@ -92,7 +92,7 @@ def main():
 
         move = getch.getch()
 
-        x, y = moving.walk(board, x, y, move, set_char_stats, char_class, inv)
+        x, y, set_char_stats = moving.walk(board, x, y, move, set_char_stats, char_class, inv)
 
         filename, board, x, y, stage_name = stages.control_stage(x, y, filename, board, stage_name)
 
